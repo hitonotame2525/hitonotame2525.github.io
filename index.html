@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>My Alarm</title>
+
+<style>
+body{
+    font-family:sans-serif;
+    text-align:center;
+    margin-top:50px;
+    background:#eef7ff;
+}
+
+button{
+    padding:10px 25px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+input{
+    font-size:18px;
+    margin:10px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🎵 My Alarm</h1>
+
+<label>アラーム時刻</label><br>
+<input type="time" id="alarmTime">
+
+<br><br>
+
+<label>MP3を選択</label><br>
+<input type="file" id="music" accept=".mp3,audio/*">
+
+<br><br>
+
+<button id="startBtn">アラーム開始</button>
+
+<h2 id="status">未設定</h2>
+
+<script>
+
+let audio = null;
+let alarmHour = 0;
+let alarmMinute = 0;
+let played = false;
+
+const fileInput = document.getElementById("music");
+const status = document.getElementById("status");
+
+fileInput.addEventListener("change", (e)=>{
+
+    const file = e.target.files[0];
+
+    if(file){
+        audio = new Audio(URL.createObjectURL(file));
+    }
+
+});
+
+document.getElementById("startBtn").addEventListener("click", ()=>{
+
+    const time = document.getElementById("alarmTime").value;
+
+    if(time===""){
+        alert("時間を設定してください");
+        return;
+    }
+
+    if(audio===null){
+        alert("MP3を選択してください");
+        return;
+    }
+
+    const t = time.split(":");
+    alarmHour = Number(t[0]);
+    alarmMinute = Number(t[1]);
+
+    played = false;
+
+    status.textContent = "⏰ アラーム待機中";
+
+});
+
+setInterval(()=>{
+
+    if(audio===null) return;
+
+    const now = new Date();
+
+    if(
+        now.getHours()===alarmHour &&
+        now.getMinutes()===alarmMinute &&
+        !played
+    ){
+        played = true;
+        audio.play();
+        status.textContent = "🔔 アラーム！";
+    }
+
+},1000);
+
+</script>
+
+</body>
+</html>
