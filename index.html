@@ -1,141 +1,551 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
-<title>My Alarm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🎵 WakeTune</title>
 
 <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-    font-family:sans-serif;
+
+    font-family:"Yu Gothic","Meiryo",sans-serif;
+
+    background:linear-gradient(135deg,#0F172A,#1E293B);
+
+    color:#F8FAFC;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+}
+
+.container{
+
+    width:100%;
+
+    max-width:500px;
+
+}
+
+.card{
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:25px;
+
+    padding:35px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.35);
+
+}
+
+.logo{
+
     text-align:center;
-    margin-top:50px;
-    background:#eef7ff;
+
+    margin-bottom:35px;
+
+}
+
+.logo h1{
+
+    font-size:38px;
+
+    color:#38BDF8;
+
+}
+
+.logo p{
+
+    margin-top:8px;
+
+    color:#CBD5E1;
+
+    font-size:15px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+}
+
+input[type=time]{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    margin-bottom:25px;
+
+    font-size:18px;
+
+}
+
+input[type=file]{
+
+    width:100%;
+
+    margin-bottom:30px;
+
+}
+
+.buttons{
+
+    display:flex;
+
+    gap:12px;
+
 }
 
 button{
-    padding:10px 25px;
-    font-size:18px;
+
+    flex:1;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:17px;
+
     cursor:pointer;
-    margin:5px;
+
+    transition:.25s;
+
 }
 
-input{
-    font-size:18px;
-    margin:10px;
+#startBtn{
+
+    background:#38BDF8;
+
+    color:white;
+
 }
+
+#startBtn:hover{
+
+    background:#0EA5E9;
+
+    transform:translateY(-2px);
+
+}
+
+#stopBtn{
+
+    background:#334155;
+
+    color:white;
+
+}
+
+#stopBtn:hover{
+
+    background:#475569;
+
+}
+
+button:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+#status{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    font-size:18px;
+
+    color:#7DD3FC;
+
+}
+
+#welcome{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.75);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+
+}
+
+.welcomeBox{
+
+    width:90%;
+
+    max-width:500px;
+
+    background:#1E293B;
+
+    border-radius:25px;
+
+    padding:35px;
+
+    position:relative;
+
+}
+
+.close{
+
+    position:absolute;
+
+    right:20px;
+
+    top:15px;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+    color:white;
+
+}
+
+.welcomeBox h2{
+
+    color:#38BDF8;
+
+    margin-bottom:20px;
+
+}
+
+.welcomeBox p{
+
+    line-height:1.9;
+
+    margin-bottom:18px;
+
+}
+
+.check{
+
+    margin-top:25px;
+
+}
+
+@media(max-width:600px){
+
+.card{
+
+padding:25px;
+
+}
+
+.logo h1{
+
+font-size:30px;
+
+}
+
+button{
+
+font-size:16px;
+
+}
+
+}
+
 </style>
 
 </head>
+
 <body>
 
-<h1>🎵 My Alarm</h1>
+<div id="welcome">
 
-<label>アラーム時刻</label><br>
+<div class="welcomeBox">
+
+<div class="close" id="closeWelcome">×</div>
+
+<h2>🎵 WakeTuneへようこそ！</h2>
+
+<p>
+
+① MP3を選択します。<br><br>
+
+② アラーム時刻を設定します。<br><br>
+
+③ 「アラーム開始」を押します。<br><br>
+
+④ ページは開いたままご利用ください。<br><br>
+
+🍎 iPhoneではショートカットの
+オートメーションを利用すると便利です。
+
+</p>
+
+<label class="check">
+
+<input type="checkbox" id="dontShow">
+
+次回から表示しない
+
+</label>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<div class="logo">
+
+<h1>🎵 WakeTune</h1>
+
+<p>Wake up with your music.</p>
+
+</div>
+
+<label>
+
+アラーム時刻
+
+</label>
+
 <input type="time" id="alarmTime">
 
-<br><br>
+<label>
 
-<label>MP3を選択</label><br>
-<input type="file" id="music" accept=".mp3,audio/*">
+音源（MP3）
 
-<br><br>
+</label>
 
-<button id="startBtn">アラーム開始</button>
-<button id="stopBtn" disabled>停止</button>
+<input
+type="file"
+id="music"
+accept=".mp3,audio/*">
 
-<h2 id="status">未設定</h2>
+<div class="buttons">
+
+<button id="startBtn">
+
+アラーム開始
+
+</button>
+
+<button id="stopBtn" disabled>
+
+停止
+
+</button>
+
+</div>
+
+<p id="status">
+
+未設定
+
+</p>
+
+</div>
+
+</div>
 
 <script>
 
-let audio = null;
-let alarmHour = 0;
-let alarmMinute = 0;
-let played = false;
+let audio=null;
 
-const fileInput = document.getElementById("music");
-const status = document.getElementById("status");
-const stopBtn = document.getElementById("stopBtn");
+let alarmHour=0;
+let alarmMinute=0;
 
-// MP3選択
-fileInput.addEventListener("change", (e)=>{
+let played=false;
 
-    const file = e.target.files[0];
+const status=document.getElementById("status");
+
+const stopBtn=document.getElementById("stopBtn");
+
+const fileInput=document.getElementById("music");
+
+const closeWelcome=document.getElementById("closeWelcome");
+
+const welcome=document.getElementById("welcome");
+
+const dontShow=document.getElementById("dontShow");
+
+//==========================
+// Welcome画面
+//==========================
+
+if(localStorage.getItem("hideWelcome")=="true"){
+
+welcome.style.display="none";
+
+}
+
+closeWelcome.onclick=()=>{
+
+if(dontShow.checked){
+
+localStorage.setItem("hideWelcome","true");
+
+}
+
+welcome.style.display="none";
+
+};
+
+//==========================
+// Part1-①ここまで
+//==========================
+//==========================
+// MP3読み込み
+//==========================
+
+fileInput.addEventListener("change",(e)=>{
+
+    const file=e.target.files[0];
 
     if(file){
-        audio = new Audio(URL.createObjectURL(file));
+
+        audio=new Audio(URL.createObjectURL(file));
+
+        status.textContent="🎵 "+file.name+" を選択しました";
+
     }
 
 });
 
+//==========================
 // アラーム開始
-document.getElementById("startBtn").addEventListener("click", ()=>{
+//==========================
 
-    const time = document.getElementById("alarmTime").value;
+document.getElementById("startBtn").onclick=()=>{
+
+    const time=document.getElementById("alarmTime").value;
 
     if(time===""){
-        alert("時間を設定してください");
+
+        alert("アラーム時刻を設定してください");
+
         return;
+
     }
 
     if(audio===null){
+
         alert("MP3を選択してください");
+
         return;
+
     }
 
-    const t = time.split(":");
+    const t=time.split(":");
 
-    alarmHour = Number(t[0]);
-    alarmMinute = Number(t[1]);
+    alarmHour=Number(t[0]);
 
-    played = false;
+    alarmMinute=Number(t[1]);
 
-    stopBtn.disabled = true;
+    played=false;
 
-    status.textContent = "⏰ アラーム待機中";
+    status.textContent="⏰ アラーム待機中";
 
-});
+    stopBtn.disabled=false;
 
-// 1秒ごとに確認
+};
+
+//==========================
+// 停止
+//==========================
+
+stopBtn.onclick=()=>{
+
+    if(audio){
+
+        audio.pause();
+
+        audio.currentTime=0;
+
+    }
+
+    played=true;
+
+    stopBtn.disabled=true;
+
+    status.textContent="⏹ 停止しました";
+
+};
+
+//==========================
+// アラーム判定
+//==========================
+
 setInterval(()=>{
 
-    if(audio===null) return;
+    if(audio===null)return;
 
-    const now = new Date();
+    const now=new Date();
 
     if(
+
         now.getHours()===alarmHour &&
+
         now.getMinutes()===alarmMinute &&
+
         !played
+
     ){
 
-        played = true;
+        played=true;
 
-        audio.currentTime = 0;
+        audio.currentTime=0;
+
         audio.play();
 
-        stopBtn.disabled = false;
-
-        status.textContent = "🔔 アラーム！";
+        status.textContent="🔔 アラーム！";
 
     }
 
 },1000);
 
-// 停止ボタン
-stopBtn.addEventListener("click", ()=>{
-
-    if(audio){
-        audio.pause();
-        audio.currentTime = 0;
-    }
-
-    stopBtn.disabled = true;
-
-    status.textContent = "⏹️ アラームを停止しました";
-
-});
-
 </script>
 
 </body>
+
 </html>
