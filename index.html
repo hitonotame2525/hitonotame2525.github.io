@@ -184,16 +184,55 @@ button:disabled{
 
 }
 
+#selectMusicBtn{
+
+    width:100%;
+
+    background:#2563EB;
+
+    color:white;
+
+    margin-bottom:15px;
+
+}
+
+#selectMusicBtn:hover{
+
+    background:#1D4ED8;
+
+}
+
+#musicName{
+
+    text-align:center;
+
+    color:#CBD5E1;
+
+    margin-bottom:25px;
+
+    font-size:15px;
+
+}
+
 #status{
+
+    #status{
 
     margin-top:25px;
 
     text-align:center;
 
-    font-size:18px;
+    font-size:17px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:rgba(56,189,248,.15);
 
     color:#7DD3FC;
 
+}
 }
 
 #welcome{
@@ -351,16 +390,21 @@ font-size:16px;
 
 <input type="time" id="alarmTime">
 
-<label>
-
-音源（MP3）
-
-</label>
+<label>音源（MP3）</label>
 
 <input
 type="file"
 id="music"
-accept=".mp3,audio/*">
+accept=".mp3,audio/*"
+hidden>
+
+<button id="selectMusicBtn">
+🎵 MP3を選択
+</button>
+
+<p id="musicName">
+音源が選択されていません
+</p>
 
 <div class="buttons">
 
@@ -403,6 +447,10 @@ const stopBtn=document.getElementById("stopBtn");
 
 const fileInput=document.getElementById("music");
 
+const selectMusicBtn=document.getElementById("selectMusicBtn");
+
+const musicName=document.getElementById("musicName");
+
 const closeWelcome=document.getElementById("closeWelcome");
 
 const welcome=document.getElementById("welcome");
@@ -438,6 +486,13 @@ welcome.style.display="none";
 // MP3読み込み
 //==========================
 
+
+selectMusicBtn.onclick=()=>{
+
+    fileInput.click();
+
+};
+
 fileInput.addEventListener("change",(e)=>{
 
     const file=e.target.files[0];
@@ -446,12 +501,13 @@ fileInput.addEventListener("change",(e)=>{
 
         audio=new Audio(URL.createObjectURL(file));
 
-        status.textContent="🎵 "+file.name+" を選択しました";
+        musicName.textContent="🎵 "+file.name;
+
+        status.textContent="🟢 音源を読み込みました";
 
     }
 
 });
-
 //==========================
 // アラーム開始
 //==========================
@@ -484,7 +540,7 @@ document.getElementById("startBtn").onclick=()=>{
 
     played=false;
 
-    status.textContent="⏰ アラーム待機中";
+    status.textContent="🟢 アラーム待機中";
 
     stopBtn.disabled=false;
 
@@ -538,7 +594,7 @@ setInterval(()=>{
 
         audio.play();
 
-        status.textContent="🔔 アラーム！";
+        status.textContent="🔔 アラームが鳴っています";
 
     }
 
